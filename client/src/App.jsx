@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Home, Profile, CreateCampaign, CampaignDetails } from "./pages";
 import { Navbar, Sidebar } from "./components";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -18,6 +19,12 @@ const App = () => {
           <Route path="/campaign-details/:id" element={<CampaignDetails />} />
         </Routes>
       </div>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          duration: 5000
+        }}
+      />
     </div>
   )
 }

@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CustomButton } from "./";
-import { menu, search, thirdweb } from "../assets";
+import { menu, search, thirdweb, logo } from "../assets";
 import { navlinks } from "../constants";
+import { useStateContext } from "../context";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
   const [toggleDrawer, setToggleDrawer] = useState(false);
-
-  const address = "0xkjh3urhfuey78938786hjfh";
-
-  const connectWallet = () => {
-
-  };
+  const { connect, address } = useStateContext();
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
@@ -39,8 +35,8 @@ const Navbar = () => {
           title={address ? "Create a campaign" : "Connect"}
           styles={address ? "bg-[#1DC071] hover:bg-[#089752]" : "bg-[#8C6DFD] hover:bg-[#6741f3]"}
           handleClick={() => {
-            if (address) navigate("create-campaign")
-            else connectWallet()
+            if (address) navigate("create-campaign");
+            else connect();
           }}
         />
 
@@ -58,11 +54,13 @@ const Navbar = () => {
       {/* Small Screen Navbar */}
       <div className="sm:hidden flex justify-between items-center relative">
         <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2C2F32] hover:bg-[#25282b] transition-all duration-200 flex justify-center items-center cursor-pointer">
-          <img
-            src={thirdweb}
-            alt="user"
-            className="w-[60%] h-[60%] object-contain hover:scale-125"
-          />
+          <Link to="/" className="w-full h-full flex items-center justify-center">
+            <img
+              src={logo}
+              alt="user"
+              className="w-[60%] h-[60%] object-contain hover:scale-125"
+            />
+          </Link>
         </div>
         <img
           src={menu}
@@ -105,7 +103,7 @@ const Navbar = () => {
                   navigate("create-campaign");
                   setToggleDrawer(false);
                 }
-                else connectWallet();
+                else connect();
               }}
             />
           </div>

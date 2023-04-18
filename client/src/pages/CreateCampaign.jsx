@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ethers } from "ethers";
 import { money } from '../assets';
 import { CustomButton, FormField } from '../components';
+import { ethers } from "ethers";
 import { checkIfImage } from '../utils';
+import { useStateContext } from '../context';
+import { toast } from 'react-hot-toast';
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
+  const { createCampaign } = useStateContext()
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -24,13 +27,30 @@ const CreateCampaign = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    checkIfImage(form.image, async (exists) => {
+      if (exists) {
+        setIsLoading(true);
+        await createCampaign({
+          ...form, 
+          target: ethers.utils.parseUnits(form.target, 18)
+        });
+        setIsLoading(false);
+        navigate('/');
+      }
+      else {
+        setIsLoading(false);
+        toast.error("Provide valid image URL!");
+        setForm({ ...form, image: "" });
+      }
+    });
   };
 
   return (
     <div className="bg-[#1C1C24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
-      {isLoading && "Loading..."}
+      {isLoading && <h1 className="text-white">Loading...</h1>}
       <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3A3A43] rounded-[10px]">
         <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white">
           Start a Campaign
@@ -97,8 +117,9 @@ const CreateCampaign = () => {
         <div className="flex justify-end items-center mt-[25px]">
           <CustomButton
             btnType="submit"
-            title="Submit your campaign"
+            title={isLoading ? "Creating" : "Submit your campaign"}
             styles="bg-[#1DC071] hover:bg-[#089752]"
+            isDisabled={isLoading}
           />
         </div>
       </form>
