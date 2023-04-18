@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CustomButton } from "./";
-import { logo, menu, search, thirdweb } from "../assets";
+import { menu, search, thirdweb } from "../assets";
 import { navlinks } from "../constants";
 
 const Navbar = () => {
@@ -101,8 +101,11 @@ const Navbar = () => {
               title={address ? "Create a campaign" : "Connect"}
               styles={address ? "bg-[#1DC071] hover:bg-[#089752]" : "bg-[#8C6DFD] hover:bg-[#6741f3]"}
               handleClick={() => {
-                if (address) navigate("create-campaign")
-                else connectWallet()
+                if (address) {
+                  navigate("create-campaign");
+                  setToggleDrawer(false);
+                }
+                else connectWallet();
               }}
             />
           </div>
