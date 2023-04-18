@@ -16,7 +16,9 @@ const Home = () => {
 
   useEffect(() => {
     if (contract) fetchCampaigns();
-  }, [address, contract]);
+  }, [address, contract]); 
+
+  console.log(campaigns);
 
   return (
     <div className="">
