@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { loader } from '../assets';
 import FundCard from './FundCard';
 
-const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
+const DisplayCampaigns = ({ title, isLoading, campaigns, profilePage }) => {
     const navigate = useNavigate();
     const handleNavigate = (campaign) => {
         navigate(`/campaign-details/${campaign.title}`, { state: campaign });
@@ -30,7 +30,7 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
                 )}
                 {!isLoading && campaigns.length > 0 && (
                     campaigns.reverse().map(
-                        (campaign, index) => <FundCard key={index} {...campaign} handleClick={() => handleNavigate(campaign)} />
+                        (campaign, index) => <FundCard key={index} {...campaign} handleClick={() => handleNavigate(campaign)} profilePage={profilePage} />
                     )
                 )}
             </div>

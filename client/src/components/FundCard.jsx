@@ -1,8 +1,10 @@
 import React from "react";
 import { tagType, thirdweb } from "../assets";
 import { daysLeft } from "../utils";
+import { useStateContext } from "../context";
 
-const FundCard = ({ owner, title, description, target, deadline, amountCollected, image, handleClick }) => {
+const FundCard = ({ owner, title, description, target, deadline, amountCollected, image, handleClick, profilePage }) => {
+    const { address } = useStateContext();
     const remainingDays = daysLeft(deadline);
 
     return (
@@ -52,18 +54,20 @@ const FundCard = ({ owner, title, description, target, deadline, amountCollected
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center mt-[20px] gap-[12px]">
-                    <div className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-[#13131A]">
-                        <img
-                            className="w-1/2 h-1/2 object-contain"
-                            src={thirdweb}
-                            alt="user"
-                        />
+                {!profilePage && (
+                    <div className="flex items-center mt-[20px] gap-[12px]">
+                        <div className="w-[30px] h-[30px] rounded-full flex justify-center items-center bg-[#13131A]">
+                            <img
+                                className="w-1/2 h-1/2 object-contain"
+                                src={thirdweb}
+                                alt="user"
+                            />
+                        </div>
+                        <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate">
+                            by <span className="text-[#B2B3BD]">{owner === address ? "me" : owner}</span>
+                        </p>
                     </div>
-                    <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate">
-                        by <span className="text-[#B2B3BD]">{owner}</span>
-                    </p>
-                </div>
+                )}
             </div>
         </div>
     )
