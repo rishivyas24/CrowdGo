@@ -23,10 +23,10 @@ export const StateContextProvider = ({ children }) => {
                     form.image
                 ]
             });
-            console.log("contract call success", data);
+            console.log("Contract Call Success", data);
         }
         catch (error) {
-            console.log("contract call failure", error);
+            console.log("Contract Call Failure", error);
         }
     };
 
