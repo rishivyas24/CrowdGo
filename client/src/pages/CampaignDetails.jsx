@@ -50,6 +50,63 @@ const CampaignDetails = () => {
           />
         </div>
       </div>
+      <div className="mt-[60px] flex lg:flex-row flex-col gap-5">
+        <div className="flex-[2] flex flex-col gap-[40px]">
+          <div>
+            <h4 className="font-epilogue font-semibold text-[18px] text-white">
+              CREATOR
+            </h4>
+            <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
+              <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2C2F32] cursor-pointer">
+                <img
+                  className="w-[60%] h-[60%] object-contain"
+                  src={thirdweb}
+                  alt="user"
+                />
+              </div>
+              <div>
+                <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
+                  {state.owner === address ? "Campaign by Me" : state.owner}
+                </h4>
+                <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191] break-all">
+                  {state.owner !== address ? "Campaign Creator" : state.owner}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-epilogue font-semibold text-[18px] text-white">
+              STORY
+            </h4>
+            <div className="mt-[20px]">
+              <p className="font-epilogue font-normal text-[16px] leading-[26px] text-[#808191] text-justify">
+                {state.description}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-epilogue font-semibold text-[18px] text-white">
+              DONATORS
+            </h4>
+            <div className="mt-[20px] flex flex-col gap-4">
+              {donators.length > 0 ? donators.map((donator, index) => (
+                <div>
+                  DONATORS
+                </div>
+              )) : (
+                <p className="font-epilogue font-normal text-[16px] leading-[26px] text-[#808191] text-justify">
+                  No Donators yet... Be the first one😊
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div>
+          
+        </div>
+      </div>
     </div>
   )
 }
