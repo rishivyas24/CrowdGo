@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { money } from '../assets';
-import { CustomButton, FormField, Loader } from '../components';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { money } from "../assets";
+import { CustomButton, FormField, Loader } from "../components";
 import { ethers } from "ethers";
-import { checkIfImage } from '../utils';
-import { useStateContext } from '../context';
-import { toast } from 'react-hot-toast';
+import { checkIfImage } from "../utils";
+import { useStateContext } from "../context";
+// import { toast } from 'react-hot-toast';
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
-  const { createCampaign } = useStateContext()
+  const { createCampaign, secondary } = useStateContext();
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -34,33 +34,37 @@ const CreateCampaign = () => {
       if (exists) {
         setIsLoading(true);
         await createCampaign({
-          ...form, 
-          target: ethers.utils.parseUnits(form.target, 18)
+          ...form,
+          target: ethers.utils.parseUnits(form.target, 18),
         });
         setIsLoading(false);
-        navigate('/');
-      }
-      else {
+        navigate("/");
+      } else {
         setIsLoading(false);
-        toast.error("Provide valid image URL!");
+        // toast.error("Provide valid image URL!");
         setForm({ ...form, image: "" });
       }
     });
   };
 
   return (
-    <div className="bg-[#1C1C24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+    <div
+      className={`${secondary} flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4`}
+    >
       {isLoading && <Loader />}
       <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3A3A43] rounded-[10px]">
         <h1 className="font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white">
           Start a Campaign
         </h1>
       </div>
-      <form onSubmit={handleSubmit} className="w-full mt-[65px] flex flex-col gap-[30px]">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full mt-[65px] flex flex-col gap-[30px]"
+      >
         <div className="flex flex-wrap gap-[40px]">
           <FormField
             labelName="*Your Name"
-            placeholder="Shubham Lal"
+            placeholder="Your Name"
             inputType="text"
             value={form.name}
             handleChange={(e) => handleFormFieldChange(e, "name")}
@@ -80,14 +84,14 @@ const CreateCampaign = () => {
           value={form.description}
           handleChange={(e) => handleFormFieldChange(e, "description")}
         />
-        <div className="flex justify-start items-center p-4 bg-[#8C6DFD] h-[120px] rounded-[10px] w-fit">
+        <div className="flex justify-start items-center p-4 bg-[#8C6DFD] h-[120px] rounded-[10px] w-full">
           <img
             src={money}
             alt="money"
             className="w-[40px] h-[40px] object-contain"
           />
           <h4 className="font-epilogue font-bold text-[25px] text-white ml-[20px]">
-            You will get 100% of the raised amount 🚀
+            You will get 100% of the raised amount
           </h4>
         </div>
         <div className="flex flex-wrap gap-[40px]">
@@ -105,16 +109,16 @@ const CreateCampaign = () => {
             value={form.deadline}
             handleChange={(e) => handleFormFieldChange(e, "deadline")}
           />
-          <FormField
-            labelName="*Campaign Image"
-            placeholder="Paste image URL of your campaign"
-            inputType="text"
-            value={form.image}
-            handleChange={(e) => handleFormFieldChange(e, "image")}
-          />
         </div>
+        <FormField
+          labelName="*Campaign Image"
+          placeholder="Paste image URL of your campaign"
+          inputType="text"
+          value={form.image}
+          handleChange={(e) => handleFormFieldChange(e, "image")}
+        />
 
-        <div className="flex justify-end items-center mt-[25px]">
+        <div className="flex justify-center items-center mt-[25px]">
           <CustomButton
             btnType="submit"
             title={isLoading ? "Creating" : "Submit your campaign"}
@@ -124,7 +128,7 @@ const CreateCampaign = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreateCampaign
+export default CreateCampaign;
